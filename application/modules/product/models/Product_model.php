@@ -11,7 +11,7 @@ class Product_model extends CI_Model {
      */
     protected $table = 'as_products';
 
-    public function user_list()
+    public function product_list()
     {
         $start = $this->input->post('start');
         $length = $this->input->post('length') != -1 ? $this->input->post('length') : 10;
@@ -22,11 +22,12 @@ class Product_model extends CI_Model {
         $order_dir = strtoupper($order[0]['dir']);
 
         $field = array(
-            1   => 'as_users.userNIP',
-            2   => 'as_users.userFullName',
-            3   => 'as_users.userPhone',
-            4   => 'as_group.groupName',
-            5   => 'as_users.userName'
+            1   => 'productBarcode',
+            2   => 'productName',
+            3   => 'productStock',
+            4   => 'productBuyPrice',
+            5   => 'productSalePrice',
+            6   => 'productDiscount'
         );
 
         $order_column = $field[$order_column];
@@ -34,16 +35,15 @@ class Product_model extends CI_Model {
         $where = "";
 
         if (!empty($search['value'])) {
-            $where .= " WHERE as_users.userNIP LIKE '%" . $search['value'] . "%'";
-            $where .= " OR as_users.userFullName LIKE '%" . $search['value'] . "%'";
-            $where .= " OR as_users.userPhone LIKE '%" . $search['value'] . "%'";
-            $where .= " OR as_group.groupName LIKE '%" . $search['value'] . "%'";
-            $where .= " OR as_users.userName LIKE '%" . $search['value'] . "%'";
+            $where .= " WHERE productBarcode LIKE '%" . $search['value'] . "%'";
+            $where .= " OR productName LIKE '%" . $search['value'] . "%'";
+            $where .= " OR productStock LIKE '%" . $search['value'] . "%'";
+            $where .= " OR productBuyPrice LIKE '%" . $search['value'] . "%'";
+            $where .= " OR productSalePrice LIKE '%" . $search['value'] . "%'";
+            $where .= " OR productDiscount LIKE '%" . $search['value'] . "%'";
         }
 
-        $sql = "SELECT as_users.*, as_group.groupName
-                FROM {$this->table}
-                JOIN as_group ON (as_users.userLevel = as_group.groupID){$where}";
+        $sql = "SELECT * FROM {$this->table}{$where}";
 
         $query = $this->db->query($sql);
         $records_total = $query->num_rows();
@@ -57,18 +57,18 @@ class Product_model extends CI_Model {
         $rows = array();
         $i = ($start + 1);
         foreach ($rows_data as $row) {
-            $row->userID        = $row->userID;
-            $row->number        = $i;
-            $row->userNIP       = $row->userNIP;
-            $row->userFullName  = $row->userFullName;
-            $row->userPhone     = $row->userPhone;
-            $row->groupName     = $row->groupName;
-            $row->userBlocked   = $row->userBlocked;
-            $row->userName      = $row->userName;
+            $row->productID         = $row->productID;
+            $row->number            = $i;
+            $row->productBarcode    = $row->productBarcode;
+            $row->productName       = $row->productName;
+            $row->productStock      = $row->productStock;
+            $row->productBuyPrice   = $row->productBuyPrice;
+            $row->productSalePrice  = $row->productSalePrice;
+            $row->productDiscount   = $row->productDiscount;
             $row->actions = 
-                generate_button('menu', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->userID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
+                generate_button('product', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->productID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
                 .' '.
-                generate_button('menu', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->userID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
+                generate_button('product', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->productID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
 
             $rows[] = $row;
             $i++;

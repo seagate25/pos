@@ -52,9 +52,9 @@ class Brand_model extends CI_Model {
             $row->brandName      = $row->brandName;
             $row->brandStatus    = $row->brandStatus;
             $row->actions = 
-                generate_button('menu', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->brandID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
+                generate_button('brand', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->brandID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
                 .' '.
-                generate_button('menu', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->brandID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
+                generate_button('brand', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->brandID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
 
             $rows[] = $row;
             $i++;

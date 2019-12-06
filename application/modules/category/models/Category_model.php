@@ -57,9 +57,9 @@ class Category_model extends CI_Model {
             $row->categoryName      = $row->categoryName;
             $row->categoryStatus    = $row->categoryStatus;
             $row->actions = 
-                generate_button('menu', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->categoryID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
+                generate_button('category', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->categoryID.')" class="btn btn-success btn-elevate btn-xs"><i class="flaticon-edit position-left"></i> Edit</button>')
                 .' '.
-                generate_button('menu', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->categoryID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
+                generate_button('category', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->categoryID.')" class="btn btn-danger btn-elevate btn-xs"><i class="flaticon-cancel position-left"></i> Hapus</button>');
 
             $rows[] = $row;
             $i++;

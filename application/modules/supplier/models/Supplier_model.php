@@ -70,9 +70,9 @@ class Supplier_model extends CI_Model {
             $row->supplierCPHp          = $row->supplierCPHp;
             $row->supplierStatus        = $row->supplierStatus;
             $row->actions = 
-                generate_button('menu', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->supplierID.')" class="btn btn-success btn-elevate btn-icon btn-xs"><i class="flaticon-edit position-left"></i></button>')
+                generate_button('supplier', 'authUpdate', '<button type="button" onclick="Actions.edit('.$row->supplierID.')" class="btn btn-success btn-elevate btn-icon btn-xs"><i class="flaticon-edit position-left"></i></button>')
                 .' '.
-                generate_button('menu', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->supplierID.')" class="btn btn-danger btn-elevate btn-icon btn-xs"><i class="flaticon-cancel position-left"></i></button>');
+                generate_button('supplier', 'authDelete', '<button type="button" onclick="Actions.delete('.$row->supplierID.')" class="btn btn-danger btn-elevate btn-icon btn-xs"><i class="flaticon-cancel position-left"></i></button>');
 
             $rows[] = $row;
             $i++;
