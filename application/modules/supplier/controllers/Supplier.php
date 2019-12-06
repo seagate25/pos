@@ -26,12 +26,24 @@ class Supplier extends CI_Controller {
 
     public function save()
     {
-        $brandName   = $this->input->post('brandName');
-        $brandStatus = $this->input->post('brandStatus');
+        $supplierCode           = $this->input->post('supplierCode');
+        $supplierName           = $this->input->post('supplierName');
+        $supplierAddress        = $this->input->post('supplierAddress');
+        $supplierPhone          = $this->input->post('supplierPhone');
+        $supplierFax            = $this->input->post('supplierFax');
+        $supplierContactPerson  = $this->input->post('supplierContactPerson');
+        $supplierCPHp           = $this->input->post('supplierCPHp');
+        $supplierStatus         = $this->input->post('supplierStatus');
         
         $data   = array(
-            'brandName'      => $brandName,
-            'brandStatus'    => $brandStatus
+            'supplierCode'          => $supplierCode,
+            'supplierName'          => $supplierName,
+            'supplierAddress'       => $supplierAddress,
+            'supplierPhone'         => $supplierPhone,
+            'supplierFax'           => $supplierFax,
+            'supplierContactPerson' => $supplierContactPerson,
+            'supplierCPHp'          => $supplierCPHp,
+            'supplierStatus'        => $supplierStatus
         );
         
         $insert = $this->supp_model->create($data);
@@ -49,9 +61,9 @@ class Supplier extends CI_Controller {
 
     public function edit()
     {
-        $brandID    = $this->input->post('brandID');
+        $supplierID    = $this->input->post('supplierID');
         
-        $key    = array('brandID' => $brandID);
+        $key    = array('supplierID' => $supplierID);
         $row    = $this->supp_model->read_by($key);
 
         $response   = array(
@@ -66,14 +78,26 @@ class Supplier extends CI_Controller {
 
     public function update()
     {
-        $brandID     = $this->input->post('brandID');
-        $brandName   = $this->input->post('brandName');
-        $brandStatus = $this->input->post('brandStatus');
+        $supplierID             = $this->input->post('supplierID');
+        $supplierCode           = $this->input->post('supplierCode');
+        $supplierName           = $this->input->post('supplierName');
+        $supplierAddress        = $this->input->post('supplierAddress');
+        $supplierPhone          = $this->input->post('supplierPhone');
+        $supplierFax            = $this->input->post('supplierFax');
+        $supplierContactPerson  = $this->input->post('supplierContactPerson');
+        $supplierCPHp           = $this->input->post('supplierCPHp');
+        $supplierStatus         = $this->input->post('supplierStatus');
         
-        $key    = array('brandID' => $brandID);
+        $key    = array('supplierID' => $supplierID);
         $data   = array(
-            'brandName'      => $brandName,
-            'brandStatus'    => $brandStatus
+            'supplierCode'          => $supplierCode,
+            'supplierName'          => $supplierName,
+            'supplierAddress'       => $supplierAddress,
+            'supplierPhone'         => $supplierPhone,
+            'supplierFax'           => $supplierFax,
+            'supplierContactPerson' => $supplierContactPerson,
+            'supplierCPHp'          => $supplierCPHp,
+            'supplierStatus'        => $supplierStatus
         );
         
         $update = $this->supp_model->update($key, $data);
@@ -91,13 +115,25 @@ class Supplier extends CI_Controller {
 
     public function delete()
     {
-        $brandID    = $this->input->post('brandID');
+        $supplierID    = $this->input->post('supplierID');
         
-        $key    = array('brandID' => $brandID);
+        $key    = array('supplierID' => $supplierID);
         $this->supp_model->delete($key);
 
         $response['code']   = 200;
         $response['msg']    = "Berhasil menghapus data";
+
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        exit;
+    }
+
+    public function generate_supplier_code()
+    {
+        $supplierCode = autonumber('as_suppliers', 'supplierCode', 'AS');
+
+        $response['code']   = 200;
+        $response['msg']    = "Success";
+        $response['data']   = $supplierCode;
 
         echo json_encode($response, JSON_PRETTY_PRINT);
         exit;

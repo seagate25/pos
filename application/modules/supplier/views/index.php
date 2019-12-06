@@ -91,24 +91,60 @@
                 </button>
             </div>
             <form class="kt-form kt-form--label-right" method="POST" id="kt_modal_form">
-                <input type="hidden" value="" name="brandID" id="brandID">
+                <input type="hidden" value="" name="supplierID" id="supplierID">
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Nama Merk</label>
-                        <div class="col-lg-9 col-md-9 col-sm-12">
-                            <input class="form-control" type="text" name="brandName" id="brandName">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Kode Supplier</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierCode" id="supplierCode" readonly>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Status</label>
-                        <div class="col-lg-9 col-md-9 col-sm-12">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Nama Supplier</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierName" id="supplierName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Alamat</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <textarea name="supplierAddress" id="supplierAddress" cols="20" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Telepon</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierPhone" id="supplierPhone">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Fax</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierFax" id="supplierFax">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Contact Person</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierContactPerson" id="supplierContactPerson">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Contact Person HP</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <input class="form-control" type="text" name="supplierCPHp" id="supplierCPHp">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-sm-12 col-form-label">Aktif</label>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
                             <div class="kt-radio-inline">
-                                <label class="kt-radio kt-radio--bold kt-radio--success">
-                                    <input type="radio" checked name="brandStatus" value="Y"> Aktif
+                                <label class="kt-radio kt-radio--bold kt-radio--danger">
+                                    <input type="radio" checked name="supplierStatus" value="Y"> Ya
                                     <span></span>
                                 </label>
-                                <label class="kt-radio kt-radio--bold kt-radio--danger">
-                                    <input type="radio" name="brandStatus" value="N"> Non Aktif
+                                <label class="kt-radio kt-radio--bold kt-radio--success">
+                                    <input type="radio" name="supplierStatus" value="N"> Tidak
                                     <span></span>
                                 </label>
                             </div>
@@ -197,7 +233,15 @@
                 keyboard: true, 
                 show: true
             });
-            $("#exampleModalLongTitle").text('Tambah Kategori');
+            $("#exampleModalLongTitle").text('Tambah Supplier');
+            $.ajax({
+                type: "GET",
+                url: "<?php echo site_url('supplier/generate_supplier_code'); ?>",
+                success: function(response) {
+                    var obj = jQuery.parseJSON(response);
+                    $("#supplierCode").val(obj.data);
+                }
+            });
             $("#btn_submit").addClass('btn-brand');
             $("#btn_submit").text('Simpan');
             $("#kt_modal").on('hidden.bs.modal', function() {
@@ -214,20 +258,26 @@
             });
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('brand/edit'); ?>",
-                data: { brandID: id },
+                url: "<?php echo site_url('supplier/edit'); ?>",
+                data: { supplierID: id },
                 success: function(response) {
                     var obj = jQuery.parseJSON(response);
-                    $("#brandID").val(obj.data.brandID);
-                    $("#brandName").val(obj.data.brandName);
-                    $("input[name=brandStatus][value='"+obj.data.brandStatus+"']").prop("checked",true);
+                    $("#supplierID").val(obj.data.supplierID);
+                    $("#supplierCode").val(obj.data.supplierCode);
+                    $("#supplierName").val(obj.data.supplierName);
+                    $("#supplierAddress").val(obj.data.supplierAddress);
+                    $("#supplierPhone").val(obj.data.supplierPhone);
+                    $("#supplierFax").val(obj.data.supplierFax);
+                    $("#supplierContactPerson").val(obj.data.supplierContactPerson);
+                    $("#supplierCPHp").val(obj.data.supplierCPHp);
+                    $("input[name=supplierStatus][value='"+obj.data.supplierStatus+"']").prop("checked",true);
                 }
             });
-            $("#exampleModalLongTitle").text('Edit Kategori');
+            $("#exampleModalLongTitle").text('Edit Supplier');
             $("#btn_submit").addClass('btn-success');
             $("#btn_submit").text('Ubah');
             $("#kt_modal").on('hidden.bs.modal', function() {
-                $("#brandID").val('');
+                $("#supplierID").val('');
                 $('#kt_modal_form')[0].reset();
                 $("#kt_modal_form").validate().resetForm();
                 $("#btn_submit").removeClass('btn-success');
@@ -245,8 +295,8 @@
                 if(e.value) {
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('brand/delete'); ?>",
-                        data: { brandID: id },
+                        url: "<?php echo site_url('supplier/delete'); ?>",
+                        data: { supplierID: id },
                         success: function(response) {
                             var obj = jQuery.parseJSON(response);
                             swal.fire("Sukses",obj.msg,"success");
@@ -266,12 +316,24 @@
                 e.preventDefault();
                 var btn = $("#btn_submit");
                 var form = $(this).closest('form');
-                var brandID = $("#brandID").val();
+                var supplierID = $("#supplierID").val();
                 var url = "";
 
                 form.validate({
                     rules: {
-                        brandName: {
+                        supplierName: {
+                            required: true,
+                        },
+                        supplierAddress: {
+                            required: true,
+                        },
+                        supplierPhone: {
+                            required: true,
+                        },
+                        supplierContactPerson: {
+                            required: true,
+                        },
+                        supplierCPHp: {
                             required: true,
                         }
                     }
@@ -281,10 +343,10 @@
                     return;
                 }
 
-                if(brandID == '') {
-                    url = "<?php echo site_url('brand/save'); ?>";
+                if(supplierID == '') {
+                    url = "<?php echo site_url('supplier/save'); ?>";
                 } else {
-                    url = "<?php echo site_url('brand/update'); ?>";
+                    url = "<?php echo site_url('supplier/update'); ?>";
                 }
 
                 btn.addClass('kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light').attr('disabled', true);
@@ -298,12 +360,12 @@
                             btn.removeClass('kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light').attr('disabled', false);
                             if(obj.code == 200) {
                                 swal.fire("Sukses",obj.msg,"success");
-                                if(brandID == '') {
+                                if(supplierID == '') {
                                     $('#kt_modal_form')[0].reset();
                                     $("#kt_modal_form").validate().resetForm();
                                     $("#btn_submit").removeClass('btn-brand');
                                 } else {
-                                    $("#brandID").val('');
+                                    $("#supplierID").val('');
                                     $('#kt_modal_form')[0].reset();
                                     $("#kt_modal_form").validate().resetForm();
                                     $("#btn_submit").removeClass('btn-success');
