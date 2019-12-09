@@ -32,23 +32,31 @@ class Product extends CI_Controller {
 
     public function save()
     {
-        $userNIP        = $this->input->post('userNIP');
-        $userFullName   = $this->input->post('userFullName');
-        $userPhone      = $this->input->post('userPhone');
-        $userLevel      = $this->input->post('userLevel');
-        $userName       = $this->input->post('userName');
+        $productBarcode     = $this->input->post('productBarcode');
+        $productName        = $this->input->post('productName');
+        $supplierID         = $this->input->post('supplierID');
+        $categoryID         = $this->input->post('categoryID');
+        $brandID            = $this->input->post('brandID');
+        $productBuyPrice    = $this->input->post('productBuyPrice');
+        $productSalePrice   = $this->input->post('productSalePrice');
+        $productDiscount    = $this->input->post('productDiscount');
+        $productStock       = $this->input->post('productStock');
+        $productNote        = $this->input->post('productNote');
         
         $data   = array(
-            'userNIP'       => $userNIP,
-            'userFullName'  => $userFullName,
-            'userPhone'     => $userPhone,
-            'userLevel'     => $userLevel,
-            'userName'      => $userName,
-            'userPassword'  => md5('password'),
-            'userBlocked'   => 'N'
+            'productBarcode'    => $productBarcode,
+            'productName'       => $productName,
+            'supplierID'        => $supplierID,
+            'categoryID'        => $categoryID,
+            'brandID'           => $brandID,
+            'productBuyPrice'   => $productBuyPrice,
+            'productSalePrice'  => $productSalePrice,
+            'productDiscount'   => $productDiscount,
+            'productStock'      => $productStock,
+            'productNote'       => $productNote
         );
 
-        $insert = $this->user_model->create($data);
+        $insert = $this->prod_model->create($data);
         if($insert > 0) {
             $response['code']   = 200;
             $response['msg']    = "Berhasil menyimpan data";
@@ -63,10 +71,10 @@ class Product extends CI_Controller {
 
     public function edit()
     {
-        $userID = $this->input->post('userID');
-        $key    = array('userID' => $userID);
+        $productID = $this->input->post('productID');
+        $key    = array('productID' => $productID);
 
-        $data   = $this->user_model->read_by($key);
+        $data   = $this->prod_model->read_by($key);
 
         $response['code']   = 200;
         $response['msg']    = "Success";
@@ -78,29 +86,34 @@ class Product extends CI_Controller {
 
     public function update()
     {
-        $userID         = $this->input->post('userID');
-        $userNIP        = $this->input->post('userNIP');
-        $userFullName   = $this->input->post('userFullName');
-        $userPhone      = $this->input->post('userPhone');
-        $userLevel      = $this->input->post('userLevel');
-        $userName       = $this->input->post('userName');
-        $userBlocked    = $this->input->post('userBlocked');
+        $productID          = $this->input->post('productID');
+        $productBarcode     = $this->input->post('productBarcode');
+        $productName        = $this->input->post('productName');
+        $supplierID         = $this->input->post('supplierID');
+        $categoryID         = $this->input->post('categoryID');
+        $brandID            = $this->input->post('brandID');
+        $productBuyPrice    = $this->input->post('productBuyPrice');
+        $productSalePrice   = $this->input->post('productSalePrice');
+        $productDiscount    = $this->input->post('productDiscount');
+        $productStock       = $this->input->post('productStock');
+        $productNote        = $this->input->post('productNote');
         
-        $key    = array(
-            'userID'    => $userID,
-            'userNIP'   => $userNIP
-        );
-
         $data   = array(
-            'userNIP'       => $userNIP,
-            'userFullName'  => $userFullName,
-            'userPhone'     => $userPhone,
-            'userLevel'     => $userLevel,
-            'userName'      => $userName,
-            'userBlocked'   => $userBlocked
+            'productBarcode'    => $productBarcode,
+            'productName'       => $productName,
+            'supplierID'        => $supplierID,
+            'categoryID'        => $categoryID,
+            'brandID'           => $brandID,
+            'productBuyPrice'   => $productBuyPrice,
+            'productSalePrice'  => $productSalePrice,
+            'productDiscount'   => $productDiscount,
+            'productStock'      => $productStock,
+            'productNote'       => $productNote
         );
+        
+        $key    = array('productID' => $productID);
 
-        $update = $this->user_model->update($key, $data);
+        $update = $this->prod_model->update($key, $data);
         if($update > 0) {
             $response['code']   = 200;
             $response['msg']    = "Berhasil mengubah data";
@@ -115,10 +128,10 @@ class Product extends CI_Controller {
 
     public function delete()
     {
-        $userID = $this->input->post('userID');
+        $productID = $this->input->post('productID');
         
-        $key    = array('userID' => $userID);
-        $this->user_model->delete($key);
+        $key    = array('productID' => $productID);
+        $this->prod_model->delete($key);
 
         $response['code']   = 200;
         $response['msg']    = "Berhasil menghapus data";

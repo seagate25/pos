@@ -94,13 +94,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Kode Barcode</label>
+                                <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Barcode</label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input class="form-control" type="text" name="productBarcode" id="productBarcode">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Nama Produk</label>
+                                <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Nama Barang</label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input class="form-control" type="text" name="productName" id="productName">
                                 </div>
@@ -108,7 +108,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Supplier</label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
-                                    <select class="form-control kt-selectpicker" name="supplierID" id="supplierID">
+                                    <select class="form-control kt-selectpicker" data-live-search="true" name="supplierID" id="supplierID">
                                         <option selected disabled>Silahkan Pilih</option>
                                         <?php
                                             foreach($suppliers as $supplier) {
@@ -123,7 +123,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Kategori</label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
-                                    <select class="form-control kt-selectpicker" name="categoryID" id="categoryID">
+                                    <select class="form-control kt-selectpicker" data-live-search="true" name="categoryID" id="categoryID">
                                         <option selected disabled>Silahkan Pilih</option>
                                         <?php
                                             foreach($categories as $category) {
@@ -138,7 +138,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-lg-3 col-sm-12 col-form-label">Merk</label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
-                                    <select class="form-control kt-selectpicker" name="brandID" id="brandID">
+                                    <select class="form-control kt-selectpicker" data-live-search="true" name="brandID" id="brandID">
                                         <option selected disabled>Silahkan Pilih</option>
                                         <?php
                                             foreach($brands as $brand) {
@@ -250,21 +250,11 @@
                 keyboard: true, 
                 show: true
             });
-            $("#exampleModalLongTitle").text('Tambah User');
-            $.ajax({
-                type: "GET",
-                url: "<?php echo site_url('user/generate_user_nip'); ?>",
-                success: function(response) {
-                    var obj = jQuery.parseJSON(response);
-                    $("#userNIP").val(obj.data);
-                }
-            });
-            $("input[name=userBlocked]").attr('disabled', true);
+            $("#exampleModalLongTitle").text('Tambah Barang');
             $("#btn_submit").addClass('btn-brand');
             $("#btn_submit").text('Simpan');
             $("#kt_modal").on('hidden.bs.modal', function() {
                 $('.kt-selectpicker').selectpicker('refresh');
-                $("input[name=userBlocked]").attr('disabled', false);
                 $('#kt_modal_form')[0].reset();
                 $("#kt_modal_form").validate().resetForm();
                 $("#btn_submit").removeClass('btn-brand');
@@ -278,25 +268,29 @@
             });
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('user/edit'); ?>",
-                data: { userID: id },
+                url: "<?php echo site_url('product/edit'); ?>",
+                data: { productID: id },
                 success: function(response) {
                     var obj = jQuery.parseJSON(response);
-                    $("#userID").val(obj.data.userID);
-                    $("#userNIP").val(obj.data.userNIP);
-                    $("#userFullName").val(obj.data.userFullName);
-                    $("#userPhone").val(obj.data.userPhone);
-                    $('select[name=userLevel]').val(obj.data.userLevel);
+                    $("#productID").val(obj.data.productID);
+                    $("#productBarcode").val(obj.data.productBarcode);
+                    $("#productName").val(obj.data.productName);
+                    $('select[name=supplierID]').val(obj.data.supplierID);
+                    $('select[name=categoryID]').val(obj.data.categoryID);
+                    $('select[name=brandID]').val(obj.data.brandID);
                     $('.kt-selectpicker').selectpicker('refresh');
-                    $("#userName").val(obj.data.userName);
-                    $("input[name=userBlocked][value='"+obj.data.userBlocked+"']").prop("checked",true);
+                    $("#productBuyPrice").val(obj.data.productBuyPrice);
+                    $("#productSalePrice").val(obj.data.productSalePrice);
+                    $("#productDiscount").val(obj.data.productDiscount);
+                    $("#productStock").val(obj.data.productStock);
+                    $("#productNote").val(obj.data.productNote);
                 }
             });
-            $("#exampleModalLongTitle").text('Edit Grup');
+            $("#exampleModalLongTitle").text('Edit Barang');
             $("#btn_submit").addClass('btn-success');
             $("#btn_submit").text('Ubah');
             $("#kt_modal").on('hidden.bs.modal', function() {
-                $("#userID").val('');
+                $("#productID").val('');
                 $('.kt-selectpicker').selectpicker('refresh');
                 $('#kt_modal_form')[0].reset();
                 $("#kt_modal_form").validate().resetForm();
@@ -315,8 +309,8 @@
                 if(e.value) {
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('user/delete'); ?>",
-                        data: { userID: id },
+                        url: "<?php echo site_url('product/delete'); ?>",
+                        data: { productID: id },
                         success: function(response) {
                             var obj = jQuery.parseJSON(response);
                             swal.fire("Sukses",obj.msg,"success");
@@ -336,19 +330,42 @@
                 e.preventDefault();
                 var btn = $("#btn_submit");
                 var form = $(this).closest('form');
-                var userID = $("#userID").val();
+                var productID = $("#productID").val();
                 var url = "";
 
                 form.validate({
                     rules: {
-                        userFullName: {
+                        productBarcode: {
+                            required: true,
+                            number: true
+                        },
+                        productName: {
                             required: true,
                         },
-                        userLevel: {
+                        supplierID: {
                             required: true,
                         },
-                        userName: {
+                        categoryID: {
                             required: true,
+                        },
+                        brandID: {
+                            required: true,
+                        },
+                        productBuyPrice: {
+                            required: true,
+                            number: true,
+                        },
+                        productSalePrice: {
+                            required: true,
+                            number: true,
+                        },
+                        productDiscount: {
+                            required: true,
+                            number: true,
+                        },
+                        productStock: {
+                            required: true,
+                            number: true,
                         }
                     }
                 });
@@ -357,10 +374,10 @@
                     return;
                 }
 
-                if(userID == '') {
-                    url = "<?php echo site_url('user/save'); ?>";
+                if(productID == '') {
+                    url = "<?php echo site_url('product/save'); ?>";
                 } else {
-                    url = "<?php echo site_url('user/update'); ?>";
+                    url = "<?php echo site_url('product/update'); ?>";
                 }
 
                 btn.addClass('kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light').attr('disabled', true);
@@ -374,7 +391,7 @@
                             btn.removeClass('kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light').attr('disabled', false);
                             if(obj.code == 200) {
                                 swal.fire("Sukses",obj.msg,"success");
-                                if(userID == '') {
+                                if(productID == '') {
                                     $('#kt_modal_form')[0].reset();
                                     $("#kt_modal_form").validate().resetForm();
                                     $("#btn_submit").removeClass('btn-brand');
