@@ -8,6 +8,8 @@ application/config/database.php
 application/logs/*
 !application/logs/index.html
 
+application/third_party/MX/Router.php
+
 !application/*/.htaccess
 
 composer.lock
